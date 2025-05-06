@@ -24,8 +24,10 @@ app.use(express.urlencoded({ extended: false }));
 
 // Routers
 // const indexRouter = require("./routes/index");
+const userRouter = require("./routes/user");
 
 // app.use("/", indexRouter);
+app.use("/user", userRouter);
 
 // Fallback error route
 // app.get("*", (req, res, next) => {
