@@ -1,8 +1,9 @@
 const asyncHandler = require("express-async-handler");
-// const validateUser = require("../middleware/validateUser");
-const { PrismaClient } = require("@prisma/client");
-
+const validateUser = require("../middleware/validateUser");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const { validationResult } = require("express-validator");
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 // exports.function_name = asyncHandler(async(req, res, next) => {
@@ -10,40 +11,79 @@ const prisma = new PrismaClient();
 // })
 
 exports.create_user = [
-  //   validateUser,
+  validateUser,
   asyncHandler(async (req, res, next) => {
     // Send Error messages if validation fails
-    //  const errors = validationResult(req);
-    //  if (!errors.isEmpty()) {
-    //    res.json(errors);
-    //  } else {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.json(errors);
+    } else {
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-    //  }
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      await prisma.user.create({
+        data: {
+          username: req.body.username,
+          password: hashedPassword,
+        },
+      });
 
-    await prisma.user.create({
-      data: {
-        username: req.body.username,
-        password: hashedPassword,
-      },
-    });
-
-    res.json("Created user " + req.body.username);
+      res.json("Created user " + req.body.username);
+    }
   }),
 ];
 
 exports.read_user_many = asyncHandler(async (req, res, next) => {
-  res.json("Read many users");
+  const query = req.query.username || "";
+  const allUsers = await prisma.user.findMany({
+    orderBy: [
+      {
+        username: "asc",
+      },
+    ],
+    where: {
+      username: {
+        contains: query,
+        mode: "insensitive",
+      },
+    },
+  });
+  res.json(allUsers);
 });
 
 exports.read_user_one = asyncHandler(async (req, res, next) => {
-  res.json("Read one user");
+  const user = await prisma.user.findUnique({
+    where: { id: parseInt(req.params.id) },
+  });
+  res.json(user);
 });
 
-exports.update_user = asyncHandler(async (req, res, next) => {
-  res.json("Update user");
-});
+exports.update_user = [
+//   validateUserUpdate,
+  asyncHandler(async (req, res, next) => {
+    // Send Error messages if validation fails
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.json(errors);
+    } else {
+      const user = await prisma.user.update({
+        where: { id: parseInt(req.params.id) },
+        data: {
+          // username: req.body.username,
+          // password: req.body.password,
+        },
+      });
+      res.json(user);
+    }
+  }),
+];
 
 exports.delete_user = asyncHandler(async (req, res, next) => {
-  res.json("Delete user");
+  await prisma.user.delete({
+    where: {
+      id: parseInt(req.params.id),
+    },
+  });
+  res.json("Deleted user");
 });
+
+// Login route
