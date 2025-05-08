@@ -1,3 +1,4 @@
+require("dotenv").config();
 const asyncHandler = require("express-async-handler");
 const validateUser = require("../middleware/validateUser");
 const bcrypt = require("bcrypt");
@@ -24,6 +25,7 @@ exports.create_user = [
         data: {
           username: req.body.username,
           password: hashedPassword,
+          role: req.body.role,
         },
       });
 
@@ -58,7 +60,7 @@ exports.read_user_one = asyncHandler(async (req, res, next) => {
 });
 
 exports.update_user = [
-//   validateUserUpdate,
+  //   validateUserUpdate,
   asyncHandler(async (req, res, next) => {
     // Send Error messages if validation fails
     const errors = validationResult(req);
@@ -87,3 +89,19 @@ exports.delete_user = asyncHandler(async (req, res, next) => {
 });
 
 // Login route
+exports.user_login = asyncHandler(async (req, res, next) => {
+  jwt.sign(
+    { user: req.user },
+    process.env.SECRET_KEY,
+    { expiresIn: "15m" },
+    (err, token) => {
+      res.json({
+        username: req.user.username,
+        id: req.user.id,
+        role: req.user.role,
+        // Add "Bearer" on frontend
+        token: token,
+      });
+    }
+  );
+});

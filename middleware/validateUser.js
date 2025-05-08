@@ -27,6 +27,7 @@ const validateUser = [
       return value === req.body.password;
     })
     .withMessage("Typed passwords do not match."),
+  body("role").trim(),
 ];
 
 module.exports = validateUser;
