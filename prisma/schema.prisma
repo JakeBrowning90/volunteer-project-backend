@@ -19,11 +19,12 @@ model User {
   username String @unique
   password String
   role String
+  school School[]
 }
 
 model School {
   id Int @id @default(autoincrement())
-  name String @unique
+  schoolname String @unique
   code String @unique
   admin User[]
 }
