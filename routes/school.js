@@ -9,6 +9,8 @@ const schoolController = require("../controllers/schoolController");
 
 router.post("/", schoolController.create_school);
 
+router.get("/", schoolController.read_school_many);
+
 router.get("/:id", schoolController.read_school);
 
 router.put("/:id", schoolController.update_school);

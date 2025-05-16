@@ -39,6 +39,19 @@ exports.create_school = [
   }),
 ];
 
+exports.read_school_many = asyncHandler(async (req, res, next) => {
+  const adminId = parseInt(req.query.adminId);
+  const foundSchools = await prisma.school.findMany({
+    orderBy: [{ schoolname: "asc" }],
+    where: {
+      admin: {
+        some: { id: adminId },
+      },
+    },
+  });
+  res.json(foundSchools);
+});
+
 exports.read_school = asyncHandler(async (req, res, next) => {
   res.json("School read");
 });
