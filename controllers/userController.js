@@ -26,6 +26,7 @@ exports.create_user = [
           username: req.body.username,
           password: hashedPassword,
           role: req.body.role,
+          school: { connect: { code: req.body.schoolCode } },
         },
       });
 

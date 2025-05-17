@@ -31,7 +31,18 @@ const validateUser = [
     .trim()
     .isLength({ min: 1 })
     .withMessage("Role selection is required."),
-  ,
+  body("schoolCode")
+    .trim()
+    .custom(async (value, { req }) => {
+      const validCode = await prisma.school.findUnique({
+        where: {
+          code: value,
+        },
+      });
+      if (!validCode && req.body.role == "student") {
+        throw new Error("Invalid code.");
+      }
+    }),
 ];
 
 module.exports = validateUser;
