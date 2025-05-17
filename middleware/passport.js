@@ -7,7 +7,9 @@ const prisma = new PrismaClient();
 passport.use(
   new LocalStrategy(async function verify(username, password, done) {
     try {
-      const user = await prisma.user.findUnique({ where: { username: username } });
+      const user = await prisma.user.findUnique({
+        where: { username: username },
+      });
       if (!user) {
         return done(null, false, { message: "Incorrect username" });
       }
@@ -28,7 +30,10 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await prisma.user.findUnique({ where: { username: username } });
+    const user = await prisma.user.findUnique({
+      where: { username: username },
+      include: { school: { select: { name: true } } },
+    });
     done(null, user);
   } catch (err) {
     done(err);

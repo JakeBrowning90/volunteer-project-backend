@@ -57,6 +57,7 @@ exports.read_user_one = asyncHandler(async (req, res, next) => {
   const user = await prisma.user.findUnique({
     where: { id: parseInt(req.params.id) },
   });
+  console.log(user);
   res.json(user);
 });
 
@@ -100,6 +101,7 @@ exports.user_login = asyncHandler(async (req, res, next) => {
         username: req.user.username,
         id: req.user.id,
         role: req.user.role,
+        school: req.user.school,
         // Add "Bearer" on frontend
         token: token,
       });
