@@ -20,15 +20,24 @@ exports.create_user = [
       res.json(errors);
     } else {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
-
-      await prisma.user.create({
-        data: {
-          username: req.body.username,
-          password: hashedPassword,
-          role: req.body.role,
-          school: { connect: { code: req.body.schoolCode } },
-        },
-      });
+      if (req.body.schoolCode) {
+        await prisma.user.create({
+          data: {
+            username: req.body.username,
+            password: hashedPassword,
+            role: req.body.role,
+            school: { connect: { code: req.body.schoolCode } },
+          },
+        });
+      } else {
+        await prisma.user.create({
+          data: {
+            username: req.body.username,
+            password: hashedPassword,
+            role: req.body.role,
+          },
+        });
+      }
 
       res.json("Created user " + req.body.username);
     }
