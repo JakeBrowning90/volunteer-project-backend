@@ -20,6 +20,8 @@ model User {
   password String
   role String
   school School[]
+  npo NPO[]
+  opportunity Opportunity []
 }
 
 model School {
@@ -27,4 +29,19 @@ model School {
   schoolname String @unique
   code String @unique
   admin User[]
+}
+
+model NPO {
+  id Int @id @default(autoincrement())
+  nponame String @unique
+  admin User[]
+  opportunity Opportunity []
+}
+
+model Opportunity {
+  id Int @id @default(autoincrement())
+  title String
+  description String
+  npo NPO []
+  volunteer User []
 }

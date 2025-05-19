@@ -26,10 +26,12 @@ app.use(express.urlencoded({ extended: false }));
 // const indexRouter = require("./routes/index");
 const userRouter = require("./routes/user");
 const schoolRouter = require("./routes/school");
+const npoRouter = require("./routes/npo");
 
 // app.use("/", indexRouter);
 app.use("/user", userRouter);
 app.use("/school", schoolRouter);
+app.use("/npo", npoRouter);
 
 // Fallback error route
 // app.get("*", (req, res, next) => {
