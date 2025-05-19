@@ -16,7 +16,7 @@ exports.create_npo = [
     if (!errors.isEmpty()) {
       res.json(errors);
     } else {
-      await prisma.npo.create({
+      await prisma.nPO.create({
         data: {
           nponame: req.body.nponame,
           admin: { connect: { id: parseInt(req.body.admin) } },
