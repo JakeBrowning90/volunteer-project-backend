@@ -29,7 +29,7 @@ exports.create_npo = [
 
 exports.read_npo_many = asyncHandler(async (req, res, next) => {
   const adminId = parseInt(req.query.adminId);
-  const foundNPOs = await prisma.npo.findMany({
+  const foundNPOs = await prisma.nPO.findMany({
     orderBy: [{ nponame: "asc" }],
     where: {
       admin: {
