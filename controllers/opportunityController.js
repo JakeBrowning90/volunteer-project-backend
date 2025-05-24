@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 
 // })
 
-exports.opportunity = [
+exports.create_opportunity = [
   // validateOpportunity,
   asyncHandler(async (req, res, next) => {
     // Send Error messages if validation fails

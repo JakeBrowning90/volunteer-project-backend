@@ -41,7 +41,20 @@ exports.read_npo_many = asyncHandler(async (req, res, next) => {
 });
 
 exports.read_npo = asyncHandler(async (req, res, next) => {
-  res.json("NPO read");
+  const npo = await prisma.nPO.findUnique({
+    include: {
+      opportunity: {
+        select: {
+          title: true,
+          description: true,
+          id: true,
+        },
+      },
+    },
+    where: { id: parseInt(req.params.id) },
+  });
+  console.log(npo);
+  res.json(npo);
 });
 
 exports.update_npo = asyncHandler(async (req, res, next) => {
