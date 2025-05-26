@@ -28,7 +28,7 @@ model School {
   id Int @id @default(autoincrement())
   schoolname String @unique
   code String @unique
-  admin User[]
+  user User[]
 }
 
 model NPO {

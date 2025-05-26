@@ -44,7 +44,7 @@ exports.read_school_many = asyncHandler(async (req, res, next) => {
   const foundSchools = await prisma.school.findMany({
     orderBy: [{ schoolname: "asc" }],
     where: {
-      admin: {
+      user: {
         some: { id: adminId },
       },
     },
@@ -53,7 +53,19 @@ exports.read_school_many = asyncHandler(async (req, res, next) => {
 });
 
 exports.read_school = asyncHandler(async (req, res, next) => {
-  res.json("School read");
+  const school = await prisma.school.findUnique({
+    include: {
+      user: {
+        select: {
+          username: true,
+          role: true,
+        },
+      },
+    },
+    where: { id: parseInt(req.params.id) },
+  });
+  console.log(school);
+  res.json(school);
 });
 
 exports.update_school = asyncHandler(async (req, res, next) => {
