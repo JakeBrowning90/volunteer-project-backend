@@ -30,15 +30,22 @@ exports.create_opportunity = [
 
 exports.read_opportunity_many = asyncHandler(async (req, res, next) => {
   const adminId = parseInt(req.query.adminId);
-  const foundNPOs = await prisma.opportunity.findMany({
-    orderBy: [{ nponame: "asc" }],
-    where: {
-      admin: {
-        some: { id: adminId },
+  if (adminId) {
+    const foundOpps = await prisma.opportunity.findMany({
+      orderBy: [{ title: "asc" }],
+      where: {
+        admin: {
+          some: { id: adminId },
+        },
       },
-    },
-  });
-  res.json(foundNPOs);
+    });
+    res.json(foundOpps);
+  } else {
+    const foundOpps = await prisma.opportunity.findMany({
+      orderBy: [{ title: "asc" }],
+    });
+    res.json(foundOpps);
+  }
 });
 
 exports.read_opportunity = asyncHandler(async (req, res, next) => {
