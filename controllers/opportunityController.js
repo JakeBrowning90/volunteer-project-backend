@@ -42,8 +42,17 @@ exports.read_opportunity_many = asyncHandler(async (req, res, next) => {
     res.json(foundOpps);
   } else {
     const foundOpps = await prisma.opportunity.findMany({
+      include: {
+        npo: {
+          select: {
+            id: true,
+            nponame: true,
+          },
+        },
+      },
       orderBy: [{ title: "asc" }],
     });
+ 
     res.json(foundOpps);
   }
 });
