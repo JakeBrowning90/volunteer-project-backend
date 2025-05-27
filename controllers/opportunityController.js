@@ -52,13 +52,25 @@ exports.read_opportunity_many = asyncHandler(async (req, res, next) => {
       },
       orderBy: [{ title: "asc" }],
     });
- 
+
     res.json(foundOpps);
   }
 });
 
 exports.read_opportunity = asyncHandler(async (req, res, next) => {
-  res.json("Opportunity read");
+  const opp = await prisma.opportunity.findUnique({
+    where: { id: parseInt(req.params.id) },
+    include: {
+      npo: {
+        select: {
+          id: true,
+          nponame: true,
+        },
+      },
+    },
+  });
+  console.log(opp);
+  res.json(opp);
 });
 
 exports.update_opportunity = asyncHandler(async (req, res, next) => {
