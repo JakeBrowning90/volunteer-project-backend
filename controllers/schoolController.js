@@ -59,6 +59,7 @@ exports.read_school = asyncHandler(async (req, res, next) => {
         select: {
           username: true,
           role: true,
+          id: true,
         },
       },
     },
