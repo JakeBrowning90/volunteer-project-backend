@@ -65,6 +65,13 @@ exports.read_user_many = asyncHandler(async (req, res, next) => {
 exports.read_user_one = asyncHandler(async (req, res, next) => {
   const user = await prisma.user.findUnique({
     where: { id: parseInt(req.params.id) },
+    include: {
+      school: {
+        select: {
+          id: true,
+        },
+      },
+    },
   });
   console.log(user);
   res.json(user);
