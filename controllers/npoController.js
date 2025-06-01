@@ -3,6 +3,7 @@ const asyncHandler = require("express-async-handler");
 const validateNPO = require("../middleware/validateNPO");
 const { validationResult } = require("express-validator");
 const { PrismaClient } = require("@prisma/client");
+
 const prisma = new PrismaClient();
 // exports.function_name = asyncHandler(async(req, res, next) => {
 

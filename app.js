@@ -36,11 +36,17 @@ app.use("/npo", npoRouter);
 app.use("/opportunity", opportunityRouter);
 
 // Fallback error route
-// app.get("*", (req, res, next) => {
-//   res.send("Not a route.");
+app.get(/.*/, (req, res, next) => {
+  res.send("Not a route.");
+});
+
+// const PORT = 3000;
+
+// app.listen(PORT, "::", () => {
+//   console.log(`Listening on port ${PORT}.`);
 // });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, "::", () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Listening on port ${PORT}.`);
 });
