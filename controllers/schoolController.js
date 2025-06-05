@@ -31,7 +31,7 @@ exports.create_school = [
         data: {
           schoolname: req.body.schoolname,
           code: code,
-          admin: { connect: { id: parseInt(req.body.admin) } },
+          user: { connect: { id: parseInt(req.body.admin) } },
         },
       });
     }
