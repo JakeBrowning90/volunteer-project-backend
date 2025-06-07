@@ -97,14 +97,34 @@ exports.update_user = [
   }),
 ];
 
-exports.delete_user = asyncHandler(async (req, res, next) => {
-  await prisma.user.delete({
-    where: {
-      id: parseInt(req.params.id),
-    },
-  });
-  res.json("Deleted user");
-});
+(exports.register_user =
+  //   validateUserUpdate,
+  asyncHandler(async (req, res, next) => {
+    // Send Error messages if validation fails
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.json(errors);
+    } else {
+      const user = await prisma.user.update({
+        where: { id: parseInt(req.params.id) },
+        data: {
+          // username: req.body.username,
+          opportunity: { connect: { id: parseInt(req.body.oppId) } },
+        },
+      });
+      console.log("Registered!");
+
+      res.json(user);
+    }
+  })),
+  (exports.delete_user = asyncHandler(async (req, res, next) => {
+    await prisma.user.delete({
+      where: {
+        id: parseInt(req.params.id),
+      },
+    });
+    res.json("Deleted user");
+  }));
 
 // Login route
 exports.user_login = asyncHandler(async (req, res, next) => {
