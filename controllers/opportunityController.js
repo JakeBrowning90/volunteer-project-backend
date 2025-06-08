@@ -67,6 +67,12 @@ exports.read_opportunity = asyncHandler(async (req, res, next) => {
           nponame: true,
         },
       },
+      volunteer: {
+        select: {
+          id: true,
+          username: true,
+        },
+      },
     },
   });
   console.log(opp);
