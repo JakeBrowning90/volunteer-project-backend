@@ -97,7 +97,7 @@ exports.update_user = [
   }),
 ];
 
-(exports.register_user =
+exports.register_user =
   //   validateUserUpdate,
   asyncHandler(async (req, res, next) => {
     // Send Error messages if validation fails
@@ -116,15 +116,16 @@ exports.update_user = [
 
       res.json(user);
     }
-  })),
-  (exports.delete_user = asyncHandler(async (req, res, next) => {
-    await prisma.user.delete({
-      where: {
-        id: parseInt(req.params.id),
-      },
-    });
-    res.json("Deleted user");
-  }));
+  });
+
+exports.delete_user = asyncHandler(async (req, res, next) => {
+  await prisma.user.delete({
+    where: {
+      id: parseInt(req.params.id),
+    },
+  });
+  res.json("Deleted user");
+});
 
 // Login route
 exports.user_login = asyncHandler(async (req, res, next) => {
