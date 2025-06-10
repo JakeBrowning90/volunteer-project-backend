@@ -134,11 +134,12 @@ exports.user_login = asyncHandler(async (req, res, next) => {
     process.env.SECRET_KEY,
     { expiresIn: "15m" },
     (err, token) => {
+      console.log(req.user)
       res.json({
         username: req.user.username,
         id: req.user.id,
         role: req.user.role,
-        school: req.user.school,
+        opportunity: req.user.opportunity,
         // Add "Bearer" on frontend
         token: token,
       });
