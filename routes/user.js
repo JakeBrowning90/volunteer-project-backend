@@ -16,6 +16,8 @@ router.put("/:id", userController.update_user);
 
 router.put("/regopp/:id", userController.register_user);
 
+router.put("/unregopp/:id", userController.unregister_user);
+
 router.delete("/:id", userController.delete_user);
 
 // Login

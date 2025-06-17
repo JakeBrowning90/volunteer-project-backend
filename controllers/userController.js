@@ -107,12 +107,37 @@ exports.register_user =
     } else {
       const user = await prisma.user.update({
         where: { id: parseInt(req.params.id) },
+        include: { opportunity: { select: { id: true, title: true } } },
         data: {
           // username: req.body.username,
           opportunity: { connect: { id: parseInt(req.body.oppId) } },
         },
       });
       console.log("Registered!");
+      console.log(user);
+
+      res.json(user);
+    }
+  });
+
+exports.unregister_user =
+  //   validateUserUpdate,
+  asyncHandler(async (req, res, next) => {
+    // Send Error messages if validation fails
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.json(errors);
+    } else {
+      const user = await prisma.user.update({
+        where: { id: parseInt(req.params.id) },
+        include: { opportunity: { select: { id: true, title: true } } },
+        data: {
+          // username: req.body.username,
+          opportunity: { disconnect: { id: parseInt(req.body.oppId) } },
+        },
+      });
+      console.log("Unregistered!");
+      console.log(user);
 
       res.json(user);
     }
@@ -134,7 +159,7 @@ exports.user_login = asyncHandler(async (req, res, next) => {
     process.env.SECRET_KEY,
     { expiresIn: "15m" },
     (err, token) => {
-      console.log(req.user)
+      console.log(req.user);
       res.json({
         username: req.user.username,
         id: req.user.id,
