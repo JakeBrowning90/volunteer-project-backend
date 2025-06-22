@@ -28,12 +28,14 @@ const userRouter = require("./routes/user");
 const schoolRouter = require("./routes/school");
 const npoRouter = require("./routes/npo");
 const opportunityRouter = require("./routes/opportunity");
+const shiftRouter = require("./routes/shift");
 
 // app.use("/", indexRouter);
 app.use("/user", userRouter);
 app.use("/school", schoolRouter);
 app.use("/npo", npoRouter);
 app.use("/opportunity", opportunityRouter);
+app.use("/shift", shiftRouter);
 
 // Fallback error route
 app.get(/.*/, (req, res, next) => {
