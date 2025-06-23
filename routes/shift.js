@@ -11,6 +11,8 @@ router.post("/", shiftController.create_shift);
 
 router.get("/", shiftController.read_shift_many);
 
+router.get("/user/:id", shiftController.read_shift_user);
+
 router.get("/:id", shiftController.read_shift_one);
 
 router.put("/:id", shiftController.update_shift);

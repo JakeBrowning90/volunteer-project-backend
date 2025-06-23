@@ -33,6 +33,23 @@ exports.read_shift_many = asyncHandler(async (req, res, next) => {
   res.json("Read many shifts");
 });
 
+exports.read_shift_user = asyncHandler(async (req, res, next) => {
+  const userId = parseInt(req.params.id);
+  const shifts = await prisma.shift.findMany({
+    where: { volunteer: { some: { id: userId } } },
+    include: {
+      opportunity: {
+        select: {
+          title: true,
+          id: true,
+        },
+      },
+    },
+  });
+  console.log(shifts);
+  res.json(shifts);
+});
+
 exports.read_shift_one = asyncHandler(async (req, res, next) => {
   res.json("Read one shift");
 });
