@@ -73,7 +73,6 @@ exports.read_user_one = asyncHandler(async (req, res, next) => {
       },
     },
   });
-  console.log(user);
   res.json(user);
 });
 

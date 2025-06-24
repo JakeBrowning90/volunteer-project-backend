@@ -35,6 +35,16 @@ exports.read_shift_many = asyncHandler(async (req, res, next) => {
 
 exports.read_shift_user = asyncHandler(async (req, res, next) => {
   const userId = parseInt(req.params.id);
+  const user = await prisma.user.findUnique({
+    where: { id: parseInt(req.params.id) },
+    include: {
+      school: {
+        select: {
+          id: true,
+        },
+      },
+    },
+  });
   const shifts = await prisma.shift.findMany({
     where: { volunteer: { some: { id: userId } } },
     include: {
@@ -46,8 +56,8 @@ exports.read_shift_user = asyncHandler(async (req, res, next) => {
       },
     },
   });
-  console.log(shifts);
-  res.json(shifts);
+
+  res.json([user, shifts]);
 });
 
 exports.read_shift_one = asyncHandler(async (req, res, next) => {
