@@ -112,9 +112,6 @@ exports.register_user =
           opportunity: { connect: { id: parseInt(req.body.oppId) } },
         },
       });
-      console.log("Registered!");
-      console.log(user);
-
       res.json(user);
     }
   });
@@ -135,9 +132,6 @@ exports.unregister_user =
           opportunity: { disconnect: { id: parseInt(req.body.oppId) } },
         },
       });
-      console.log("Unregistered!");
-      console.log(user);
-
       res.json(user);
     }
   });
@@ -158,7 +152,7 @@ exports.user_login = asyncHandler(async (req, res, next) => {
     process.env.SECRET_KEY,
     { expiresIn: "15m" },
     (err, token) => {
-      console.log(req.user);
+      // console.log(req.user);
       res.json({
         username: req.user.username,
         id: req.user.id,
