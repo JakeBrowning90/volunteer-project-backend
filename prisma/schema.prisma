@@ -53,5 +53,5 @@ model Shift {
   volunteer User []
   opportunity Opportunity []
   starttime DateTime
-  endtime DateTime
+  length Decimal @db.Decimal(3, 2) @default(0.5)
 }

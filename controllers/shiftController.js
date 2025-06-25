@@ -20,7 +20,7 @@ exports.create_shift = [
           volunteer: { connect: { id: parseInt(req.body.user) } },
           opportunity: { connect: { id: parseInt(req.body.opp) } },
           starttime: req.body.starttime,
-          endtime: req.body.endtime,
+          length: req.body.length,
         },
       });
     }
