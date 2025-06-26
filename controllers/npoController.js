@@ -28,6 +28,7 @@ exports.create_npo = [
   }),
 ];
 
+// Get list all NPOs where User is an Admin, and all Volunteers registered
 exports.read_npo_many = asyncHandler(async (req, res, next) => {
   const adminId = parseInt(req.query.adminId);
   const foundNPOs = await prisma.nPO.findMany({
@@ -56,7 +57,7 @@ exports.read_npo_many = asyncHandler(async (req, res, next) => {
     },
  
   });
-  console.log(registeredUsers);
+  // console.log(registeredUsers);
   res.json([foundNPOs, registeredUsers]);
 });
 

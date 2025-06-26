@@ -36,7 +36,7 @@ exports.read_shift_many = asyncHandler(async (req, res, next) => {
 exports.read_shift_user = asyncHandler(async (req, res, next) => {
   const userId = parseInt(req.params.id);
   const user = await prisma.user.findUnique({
-    where: { id: parseInt(req.params.id) },
+    where: { id: userId },
     include: {
       school: {
         select: {
@@ -47,6 +47,54 @@ exports.read_shift_user = asyncHandler(async (req, res, next) => {
   });
   const shifts = await prisma.shift.findMany({
     where: { volunteer: { some: { id: userId } } },
+    include: {
+      opportunity: {
+        select: {
+          title: true,
+          id: true,
+        },
+      },
+    },
+    orderBy: {
+      starttime: "asc",
+    },
+  });
+
+  res.json([user, shifts]);
+});
+
+exports.read_shifts_org_admin = asyncHandler(async (req, res, next) => {
+  const adminId = parseInt(req.params.adminid);
+  const volId = parseInt(req.params.volid);
+  const user = await prisma.user.findUnique({
+    where: { id: volId },
+    include: {
+      school: {
+        select: {
+          id: true,
+        },
+      },
+    },
+  });
+  const shifts = await prisma.shift.findMany({
+    where: {
+      AND: [
+        { volunteer: { some: { id: volId } } },
+        {
+          opportunity: {
+            some: {
+              npo: {
+                some: {
+                  admin: {
+                    some: { id: adminId },
+                  },
+                },
+              },
+            },
+          },
+        },
+      ],
+    },
     include: {
       opportunity: {
         select: {
