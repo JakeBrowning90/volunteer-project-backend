@@ -60,12 +60,18 @@ exports.read_school = asyncHandler(async (req, res, next) => {
           username: true,
           role: true,
           id: true,
+          shift: true,
         },
       },
     },
     where: { id: parseInt(req.params.id) },
   });
+
   console.log(school);
+  for (let i = 0; i < school.user.length; i++) {
+    console.log(school.user[i].shift);
+  }
+
   res.json(school);
 });
 
