@@ -69,9 +69,15 @@ exports.read_school = asyncHandler(async (req, res, next) => {
 
   console.log(school);
   for (let i = 0; i < school.user.length; i++) {
-    console.log(school.user[i].shift);
+    let shiftTotal = 0;
+    for (let j = 0; j < school.user[i].shift.length; j++) {
+      // console.log(typeof school.user[i].shift[j].length);
+      shiftTotal += parseFloat(school.user[i].shift[j].length);
+    }
+    console.log("Total: " + shiftTotal);
+    school.user[i].shift = shiftTotal.toFixed(1);
   }
-
+  console.log(school);
   res.json(school);
 });
 
