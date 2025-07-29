@@ -67,7 +67,6 @@ exports.read_school = asyncHandler(async (req, res, next) => {
     where: { id: parseInt(req.params.id) },
   });
 
-  console.log(school);
   for (let i = 0; i < school.user.length; i++) {
     let shiftTotal = 0;
     for (let j = 0; j < school.user[i].shift.length; j++) {
