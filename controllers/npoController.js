@@ -57,7 +57,6 @@ exports.read_npo_many = asyncHandler(async (req, res, next) => {
     },
  
   });
-  // console.log(registeredUsers);
   res.json([foundNPOs, registeredUsers]);
 });
 
@@ -74,7 +73,6 @@ exports.read_npo = asyncHandler(async (req, res, next) => {
     },
     where: { id: parseInt(req.params.id) },
   });
-  // console.log(npo);
   res.json(npo);
 });
 

@@ -59,7 +59,6 @@ exports.read_shift_user = asyncHandler(async (req, res, next) => {
       starttime: "asc",
     },
   });
-  console.log(shifts);
   res.json([user, shifts]);
 });
 
