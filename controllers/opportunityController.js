@@ -75,6 +75,7 @@ exports.read_opportunity = asyncHandler(async (req, res, next) => {
       },
     },
   });
+  console.log(opp)
   res.json(opp);
 });
 

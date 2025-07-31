@@ -111,7 +111,25 @@ exports.read_shifts_org_admin = asyncHandler(async (req, res, next) => {
 });
 
 exports.read_shift_one = asyncHandler(async (req, res, next) => {
-  res.json("Read one shift");
+  const shift = await prisma.shift.findUnique({
+    where: { id: parseInt(req.params.id) },
+    include: {
+      volunteer: {
+        select: {
+          username: true,
+          id: true,
+        },
+      },
+      opportunity: {
+        select: {
+          title: true,
+          id: true,
+        },
+      },
+    },
+  });
+  console.log(shift);
+  res.json(shift);
 });
 
 // Let NPO Admins make corrections to shifts
