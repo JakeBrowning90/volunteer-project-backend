@@ -134,7 +134,15 @@ exports.read_shift_one = asyncHandler(async (req, res, next) => {
 
 // Let NPO Admins make corrections to shifts
 exports.update_shift = asyncHandler(async (req, res, next) => {
-  res.json("Update shift");
+  const shift = await prisma.shift.update({
+    where: { id: parseInt(req.params.id) },
+    data: {
+      starttime: new Date(req.body.starttime).toISOString(),
+      length: req.body.length,
+    },
+  });
+  console.log(shift);
+  res.json(shift);
 });
 
 // Let NPO Admins make delete shifts
