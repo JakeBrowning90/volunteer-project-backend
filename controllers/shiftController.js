@@ -147,5 +147,10 @@ exports.update_shift = asyncHandler(async (req, res, next) => {
 
 // Let NPO Admins make delete shifts
 exports.delete_shift = asyncHandler(async (req, res, next) => {
-  res.json("Delete shift");
+  await prisma.shift.delete({
+    where: {
+      id: parseInt(req.params.id),
+    },
+  });
+  res.json("Deleted shift");
 });
