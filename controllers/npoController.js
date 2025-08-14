@@ -60,6 +60,39 @@ exports.read_npo_many = asyncHandler(async (req, res, next) => {
   res.json([foundNPOs, registeredUsers]);
 });
 
+// Get list all NPOs where User is an Admin, and all Volunteers registered
+exports.read_npo_new_shift = asyncHandler(async (req, res, next) => {
+  const adminId = parseInt(req.query.adminId);
+  const foundNPOs = await prisma.nPO.findMany({
+    orderBy: [{ nponame: "asc" }],
+    where: {
+      admin: {
+        some: { id: adminId },
+      },
+    },
+  });
+  const registeredUsers = await prisma.user.findMany({
+    orderBy: [{ username: "asc" }],
+
+    where: {
+      opportunity: {
+        some: {
+          npo: {
+            some: {
+              admin: {
+                some: { id: adminId },
+              },
+            },
+          },
+        },
+      },
+    },
+ 
+  });
+  console.log(registeredUsers)
+  res.json([registeredUsers, foundNPOs]);
+});
+
 exports.read_npo = asyncHandler(async (req, res, next) => {
   const npo = await prisma.nPO.findUnique({
     include: {
